@@ -66,6 +66,9 @@ class Calculator {
             case '+':
                 computation = prev + current;
                 break;
+            case '^':
+                computation = Math.pow(prev, current);
+                break;
             default:
                 return;
         }
