@@ -28,10 +28,19 @@ body {
     border: 15px black;
     margin: 100px;
     width: 450px;
-    height: 800px;
+    min-height: 800px;
+    position: relative;
 }
 
-.calculator-grid > button {
+.main-row {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row: 3 / 8;
+    grid-template-columns: repeat(4, 100px);
+    position: relative
+}
+
+.main-row > button {
     cursor: pointer;
     font-size: 20px;
     outline: none;
@@ -46,7 +55,7 @@ body {
 }
 
 
-.calculator-grid > button:hover {
+.main-row > button:hover {
     background-color: rgba(255, 255, 255, .9);
 }
 
@@ -54,7 +63,8 @@ body {
     display: grid;
     grid-column: 1 / -1;
     grid-row-start: 2;
-    grid-template-columns: repeat(5, 80px);
+    grid-template-columns: 88px 88px 88px 88px 40px;
+    position: relative;
 }
 
 .first-row > button {
@@ -73,6 +83,15 @@ body {
 
 .first-row > button:hover {
     background-color: rgba(255, 255, 255, .9);
+}
+
+.expand-button {
+    align-self: center;
+    max-height: 30px;
+    max-width: 30px;
+    background-color: gray !important;
+    box-shadow: none !important;
+    border-radius: 0px !important;
 }
 
 .span-two {
@@ -100,6 +119,7 @@ body {
     border: none;
     margin: 20px 0px 20px 0px;
     min-height: 113px;
+    position: relative;
 }
 
 .output-screen .previous-output {
@@ -110,4 +130,36 @@ body {
 .output-screen .current-output {
     color: white;
     font-size: 2.5rem;
+}
+
+.hidden-row {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row-start: 3;
+    grid-template-columns: repeat(6, 70px);
+    justify-content: space-evenly;
+    position: absolute;
+    /* margin-top: 800px; */
+}
+
+.hidden-row > button {
+    cursor: pointer;
+    font-size: 15px;
+    outline: none;
+        box-shadow: inset 6px 6px 13px #fff,
+                6px 6px 13px rgba(0, 0, 0, .16);
+    background-color: #ecf0f3;
+    border: none;
+    border-radius: 40px;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+}
+
+.hidden-row > button:hover {
+    background-color: rgba(255, 255, 255, .9);
+}
+
+.hidden-row--hidden {
+    display: none;
 }

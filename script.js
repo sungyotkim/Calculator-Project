@@ -73,7 +73,6 @@ class Calculator {
 
     computeSingle(singleOperationButton) {
         let computation;
-        // const prev = parseFloat(this.previousOutput);
         const current = parseFloat(this.currentOutput);
 
         if (isNaN(current)) return;
@@ -190,10 +189,19 @@ deleteButton.addEventListener('click', button => {
 })
 
 
-//but what if I want to use - to make a negative number
-//need to add % operator and square root
 //need to code in memory functions
-//need to code in +/- functions
+//need to code in some additional functions?
+//need to add in a slide bar
+//need to include mobile compatiblity
 
 
-//maybe do an additinoal functions tab animation? i.e. something like your phone calculator
+const hiddenRow = document.querySelector('.hidden-row');
+const expandButton = document.querySelector('.expand-button');
+
+expandButton.addEventListener('click', button => {
+    if (hiddenRow.classList.value.includes('hidden-row--hidden')) {
+        hiddenRow.classList.remove('hidden-row--hidden');
+    } else {
+        hiddenRow.classList.add('hidden-row--hidden');
+    }
+})
