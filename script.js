@@ -17,6 +17,10 @@ class Calculator {
 
     appendNumber(number) {
         if (number === '.' && this.currentOutput.includes('.')) return;
+
+        if(number === "π") {
+            this.currentOutput = this.currentOutput.toString() + Math.PI.toString();
+        } else
         this.currentOutput = this.currentOutput.toString() + number.toString();
     }
 
@@ -96,6 +100,16 @@ class Calculator {
         this.previousOutput = '';
     }
 
+    // parenthesis() {
+    //     const current = parseFloat(this.currentOutput);
+    //     let counter = 0;
+
+    //     if (counter === 0) {
+    //         this.appendNumber("(");
+    //         counter ++;
+    //     }
+    // }
+
     getDisplayNumber(number) {
         const stringNumber = number.toString();
         const integerDigits = parseFloat(stringNumber.split('.')[0]);
@@ -126,16 +140,6 @@ class Calculator {
             this.previousOutputTextElement.innerText = '';
         }
     }
-
-    updateSingleDisplay() {
-        this.currentOutputTextElement.innerText = this.getDisplayNumber(this.currentOutput);
-
-        if (this.operation != null) {
-            this.previousOutputTextElement.innerText = '';
-        } else {
-            this.previousOutputTextElement.innerText = `${this.getDisplayNumber(this.previousOutput)} ${this.operation}`
-        }
-    }
 }
 
 const numberButtons = document.querySelectorAll('[data-number]');
@@ -148,6 +152,7 @@ const memoryClearButton = document.querySelector('[data-memory-clear]');
 const memoryOperationButtons = document.querySelectorAll('[data-memory-operation]');
 const previousOutputTextElement = document.querySelector('[data-previous-output]');
 const currentOutputTextElement = document.querySelector('[data-current-output]');
+const parenthesisButton = document.querySelector('[data-parenthesis]');
 
 const calculator = new Calculator(previousOutputTextElement, currentOutputTextElement);
 
@@ -188,10 +193,14 @@ deleteButton.addEventListener('click', button => {
     calculator.updateDisplay();
 })
 
+// parenthesisButton.addEventListener('click', button => {
+//     calculator.parenthesis();
+//     calculator.updateDisplay();
+// })
+
 
 //need to code in memory functions
 //need to code in some additional functions?
-//need to add in a slide bar
 //need to include mobile compatiblity
 
 
