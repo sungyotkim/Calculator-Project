@@ -28,7 +28,7 @@ body {
     border: 15px black;
     margin: 100px;
     width: 450px;
-    min-height: 800px;
+    height: 800px;
     position: relative;
 }
 
@@ -37,7 +37,8 @@ body {
     grid-column: 1 / -1;
     grid-row: 3 / 8;
     grid-template-columns: repeat(4, 100px);
-    position: relative
+    position: relative;
+    /* margin-top: 100px; */
 }
 
 .main-row > button {
@@ -57,6 +58,10 @@ body {
 
 .main-row > button:hover {
     background-color: rgba(255, 255, 255, .9);
+}
+
+.main-row--shrunk {
+    margin-top: 100px;
 }
 
 .first-row {
@@ -91,7 +96,7 @@ body {
     max-width: 30px;
     background-color: gray !important;
     box-shadow: none !important;
-    border-radius: 0px !important;
+    border-radius: 10px !important;
 }
 
 .span-two {
