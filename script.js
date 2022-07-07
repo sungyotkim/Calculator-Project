@@ -197,11 +197,14 @@ deleteButton.addEventListener('click', button => {
 
 const hiddenRow = document.querySelector('.hidden-row');
 const expandButton = document.querySelector('.expand-button');
+const mainRow = document.querySelector('.main-row');
 
 expandButton.addEventListener('click', button => {
     if (hiddenRow.classList.value.includes('hidden-row--hidden')) {
         hiddenRow.classList.remove('hidden-row--hidden');
+        mainRow.classList.add('main-row--shrunk');
     } else {
         hiddenRow.classList.add('hidden-row--hidden');
+        mainRow.classList.remove('main-row--shrunk');
     }
 })
