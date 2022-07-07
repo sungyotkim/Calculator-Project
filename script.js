@@ -237,3 +237,9 @@ function factorial(number) {
     let product = number * prev;
     return product;
 }
+
+function change() {
+    let element = document.getElementById("DEGRAD");
+    if (element.value === "DEG") element.value = "RAD";
+    else element.value = "DEG";
+}

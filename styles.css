@@ -166,6 +166,24 @@ body {
     background-color: rgba(255, 255, 255, .9);
 }
 
+.hidden-row > input {
+    cursor: pointer;
+    font-size: 15px;
+    outline: none;
+        box-shadow: inset 6px 6px 13px #fff,
+                6px 6px 13px rgba(0, 0, 0, .16);
+    background-color: #ecf0f3;
+    border: none;
+    border-radius: 40px;
+    width: 45px;
+    height: 45px;
+    margin: 5px;
+}
+
+.hidden-row > input:hover {
+    background-color: rgba(255, 255, 255, .9);
+}
+
 .hidden-row--hidden {
     display: none;
 }
