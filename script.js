@@ -89,10 +89,17 @@ class Calculator {
                 computation = current * 0.01;
                 break;
             case '√':
-                computation = Math.sqrt(current);
+                // if (current < 0) {
+                //     computation = 'error';
+                // } else {
+                computation = Math.sqrt(current)
+                // };
                 break;
             case '±':
-                    computation = current * -1;
+                computation = current * -1;
+                break;
+            case '!':
+                computation = factorial(current);
                 break;
             default:
                 return;
@@ -220,3 +227,13 @@ expandButton.addEventListener('click', button => {
         mainRow.classList.remove('main-row--shrunk');
     }
 })
+
+function factorial(number) {
+    if (number === 0 || number === 1) {
+        return 1;
+    }
+
+    let prev = factorial(number - 1);
+    let product = number * prev;
+    return product;
+}
