@@ -10,6 +10,7 @@ class Calculator {
         this.currentOutput = '';
         this.previousOutput = '';
         this.operation = undefined;
+        this.stringOutput = '';
     }
 
     delete() {
@@ -33,6 +34,18 @@ class Calculator {
         this.operation = operation;
         this.previousOutput = this.currentOutput;
         this.currentOutput = '';
+    }
+
+    chooseTrigOperation(operation) {
+        this.currentOutput += operation.toString();
+        this.currentOutput += "(";
+        let currentOutputString = this.currentOutput.toString();
+
+        if (currentOutputString[currentOutputString.length - 1] === ")") {
+            this.computeTrig();
+        }
+
+        this.trigFunction = operation;
     }
 
     memoryClear() {
@@ -114,11 +127,12 @@ class Calculator {
                 computation = current * 0.01;
                 break;
             case '√':
-                // if (current < 0) {
-                //     computation = 'error';
-                // } else {
+                if (current < 0) {
+                    this.stringOutput = 'Imaginary';
+                    computation = '';
+                } else {
                 computation = Math.sqrt(current)
-                // };
+                };
                 break;
             case '±':
                 computation = current * -1;
@@ -135,6 +149,67 @@ class Calculator {
         this.previousOutput = '';
     }
 
+    computeTrig(angle) {
+        let computation;
+        let angleValue = parseFloat(angle);
+        let sinIndex = currentOutputTextElement.innerText.indexOf("sin(");
+        let cosIndex = currentOutputTextElement.innerText.indexOf("cos(");
+        let tanIndex = currentOutputTextElement.innerText.indexOf("tan(");
+        let trigIndex;
+
+        if (sinIndex !== -1) {
+            trigIndex = sinIndex;
+        } else if (cosIndex !== -1) {
+            trigIndex = cosIndex;
+        } else if (tanIndex !== -1) {
+            trigIndex = tanIndex;
+        }
+
+        if (document.getElementById('DEGRAD').value === "RAD") {
+            switch (this.trigFunction) {
+                case 'sin':
+                    computation = Math.sin(angleValue);
+                    break;
+                case 'cos':
+                    computation = Math.cos(angleValue);
+                    break;
+                case 'tan':
+                    computation = Math.tan(angleValue);
+                    break;
+                default:
+                    return;
+            }
+        } else if (document.getElementById('DEGRAD').value === "DEG") {
+            angleValue = parseFloat(toRadians(angle));
+
+            switch (this.trigFunction) {
+                case 'sin':
+                    computation = Math.sin(angleValue);
+                    break;
+                case 'cos':
+                    computation = Math.cos(angleValue);
+                    break;
+                case 'tan':
+                    computation = Math.tan(angleValue);
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        if (trigIndex !== 0) {
+            let prev = parseFloat(currentOutputTextElement.innerText.slice(0, trigIndex));
+
+            this.currentOutput = computation * prev;
+            this.operation = undefined;
+            this.previousOutput = '';
+        } else {
+            this.currentOutput = computation;
+            this.operation = undefined;
+            this.previousOutput = '';
+        }
+    }
+
     // parenthesis() {
     //     const current = parseFloat(this.currentOutput);
     //     let counter = 0;
@@ -145,32 +220,38 @@ class Calculator {
     //     }
     // }
 
-    getDisplayNumber(number) {
-        const stringNumber = number.toString();
-        const integerDigits = parseFloat(stringNumber.split('.')[0]);
-        const decimalDigits = stringNumber.split('.')[1];
-        let integerDisplay;
+    // getDisplayNumber(number) {
+    //     const stringNumber = number.toString();
+    //     const integerDigits = parseFloat(stringNumber.split('.')[0]);
+    //     const decimalDigits = stringNumber.split('.')[1];
+    //     let integerDisplay;
 
-        if (isNaN(integerDigits)) {
-            integerDisplay = ''
-        } else {
-            integerDisplay = integerDigits.toLocaleString('en', {
-            maximumFractionDigits: 0}) //maximumFractionDigits makes sure there's no decimal points after this point
-        }
+    //     if (isNaN(integerDigits)) {
+    //         integerDisplay = ''
+    //     } else {
+    //         integerDisplay = integerDigits.toLocaleString('en', {
+    //         maximumFractionDigits: 0}) //maximumFractionDigits makes sure there's no decimal points after this point
+    //     }
 
-        if (decimalDigits != null) {
-            return `${integerDisplay}.${decimalDigits}`
-        } else {
-            return integerDisplay;
-        }
-        // .toLocaleString('en'); this adds the commas to the integers :)
-    }
+    //     if (decimalDigits != null) {
+    //         return `${integerDisplay}.${decimalDigits}`
+    //     } else {
+    //         return integerDisplay;
+    //     }
+    //     // .toLocaleString('en'); this adds the commas to the integers :)
+    // }
 
     updateDisplay() {
-        this.currentOutputTextElement.innerText = this.getDisplayNumber(this.currentOutput);
+        // this.currentOutputTextElement.innerText = `${this.getDisplayNumber(this.currentOutput)} ${this.stringOutput}`;
+        if (this.stringOutput !== '') {
+            this.currentOutputTextElement.innerText = `${this.currentOutput} ${this.stringOutput}`;
+        } else {
+            this.currentOutputTextElement.innerText = this.currentOutput
+        }
 
         if (this.operation != null) {
-            this.previousOutputTextElement.innerText = `${this.getDisplayNumber(this.previousOutput)} ${this.operation}`
+            // this.previousOutputTextElement.innerText = `${this.getDisplayNumber(this.previousOutput)} ${this.operation}`
+            this.previousOutputTextElement.innerText = `${(this.previousOutput)} ${this.operation}`
         } else {
             this.previousOutputTextElement.innerText = '';
         }
@@ -190,6 +271,7 @@ const memoryOperationButtons = document.querySelectorAll('[data-memory-operation
 const previousOutputTextElement = document.querySelector('[data-previous-output]');
 const currentOutputTextElement = document.querySelector('[data-current-output]');
 const parenthesisButton = document.querySelector('[data-parenthesis]');
+const trigOperationButtons = document.querySelectorAll('[data-trig-operation]')
 
 const calculator = new Calculator(previousOutputTextElement, currentOutputTextElement);
 
@@ -215,8 +297,29 @@ singleOperationButtons.forEach(button => {
 })
 
 equalButton.addEventListener('click', button => {
-    calculator.compute();
-    calculator.updateDisplay();
+    if (currentOutputTextElement.innerText.includes('sin') || currentOutputTextElement.innerText.includes('cos') || currentOutputTextElement.innerText.includes('tan')) {
+        let sinIndex = currentOutputTextElement.innerText.indexOf("sin(");
+        let cosIndex = currentOutputTextElement.innerText.indexOf("cos(");
+        let tanIndex = currentOutputTextElement.innerText.indexOf("tan(");
+        let startIndex;
+
+        if (sinIndex !== -1) {
+            startIndex = currentOutputTextElement.innerText.indexOf("sin(") + 4;
+        } else if (cosIndex !== -1) {
+            startIndex = currentOutputTextElement.innerText.indexOf("cos(") + 4;
+        } else if (tanIndex !== -1) {
+            startIndex = currentOutputTextElement.innerText.indexOf("tan(") + 4;
+        }
+
+        let endIndex = currentOutputTextElement.innerText.length;
+        let angle = currentOutputTextElement.innerText.slice(startIndex, endIndex);
+
+        calculator.computeTrig(angle);
+        calculator.updateDisplay();
+    } else {
+        calculator.compute();
+        calculator.updateDisplay();
+    }
 })
 
 allClearButton.addEventListener('click', button => {
@@ -234,12 +337,6 @@ deleteButton.addEventListener('click', button => {
 //     calculator.parenthesis();
 //     calculator.updateDisplay();
 // })
-
-
-//need to code in memory functions
-//need to code in some additional functions?
-//need to include mobile compatiblity
-
 
 const hiddenRow = document.querySelector('.hidden-row');
 const expandButton = document.querySelector('.expand-button');
@@ -289,6 +386,24 @@ memoryClearButton.addEventListener('click', button => {
 memoryOperationButtons.forEach(button => {
     button.addEventListener('click', () => {
         calculator.computeMemoryOperation(button.innerText);
+        calculator.updateDisplay();
+    })
+})
+
+
+//need to include mobile compatiblity
+//need to implement parentheses
+//need to add sin/cos/tan
+//need to do log
+//need to change expand from v to upsidedown v on click
+
+function toRadians(angle) {
+    return angle * (Math.PI / 180);
+}
+
+trigOperationButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        calculator.chooseTrigOperation(button.innerText);
         calculator.updateDisplay();
     })
 })
