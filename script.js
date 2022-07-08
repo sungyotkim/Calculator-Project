@@ -210,6 +210,25 @@ class Calculator {
         }
     }
 
+    appendLog(value) {
+        this.currentOutput += "log("
+    }
+
+    computeLog(value) {
+        let logIndex = currentOutputTextElement.innerText.indexOf('log(');
+
+        if (logIndex !== 0) {
+            let prev = parseFloat(currentOutputTextElement.innerText.slice(0, logIndex));
+            this.currentOutput = Math.log10(parseFloat(value)) * prev;
+            this.operation = undefined;
+            this.previousOutput = '';
+        } else {
+            this.currentOutput = Math.log10(parseFloat(value))
+            this.operation = undefined;
+            this.previousOutput = '';
+        }
+    }
+
     // parenthesis() {
     //     const current = parseFloat(this.currentOutput);
     //     let counter = 0;
@@ -272,6 +291,7 @@ const previousOutputTextElement = document.querySelector('[data-previous-output]
 const currentOutputTextElement = document.querySelector('[data-current-output]');
 const parenthesisButton = document.querySelector('[data-parenthesis]');
 const trigOperationButtons = document.querySelectorAll('[data-trig-operation]')
+const logButton = document.querySelector('[data-log-operation]');
 
 const calculator = new Calculator(previousOutputTextElement, currentOutputTextElement);
 
@@ -304,17 +324,25 @@ equalButton.addEventListener('click', button => {
         let startIndex;
 
         if (sinIndex !== -1) {
-            startIndex = currentOutputTextElement.innerText.indexOf("sin(") + 4;
+            startIndex = sinIndex + 4;
         } else if (cosIndex !== -1) {
-            startIndex = currentOutputTextElement.innerText.indexOf("cos(") + 4;
+            startIndex = cosIndex + 4;
         } else if (tanIndex !== -1) {
-            startIndex = currentOutputTextElement.innerText.indexOf("tan(") + 4;
+            startIndex = tanIndex + 4;
         }
 
         let endIndex = currentOutputTextElement.innerText.length;
         let angle = currentOutputTextElement.innerText.slice(startIndex, endIndex);
 
         calculator.computeTrig(angle);
+        calculator.updateDisplay();
+    } else if (currentOutputTextElement.innerText.includes('log')) {
+        let logIndex = currentOutputTextElement.innerText.indexOf('log(');
+        let startIndex = logIndex + 4;
+        let endIndex = currentOutputTextElement.innerText.length;
+        let value = currentOutputTextElement.innerText.slice(startIndex, endIndex);
+
+        calculator.computeLog(value);
         calculator.updateDisplay();
     } else {
         calculator.compute();
@@ -393,7 +421,6 @@ memoryOperationButtons.forEach(button => {
 
 //need to include mobile compatiblity
 //need to implement parentheses
-//need to add sin/cos/tan
 //need to do log
 //need to change expand from v to upsidedown v on click
 
@@ -406,4 +433,9 @@ trigOperationButtons.forEach(button => {
         calculator.chooseTrigOperation(button.innerText);
         calculator.updateDisplay();
     })
+})
+
+logButton.addEventListener('click', button => {
+    calculator.appendLog();
+    calculator.updateDisplay();
 })
