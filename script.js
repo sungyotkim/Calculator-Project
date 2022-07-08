@@ -3,6 +3,7 @@ class Calculator {
         this.previousOutputTextElement = previousOutputTextElement;
         this.currentOutputTextElement = currentOutputTextElement;
         this.clear();
+        this.memoryStorage = 0;
     }
 
     clear() {
@@ -43,7 +44,12 @@ class Calculator {
     }
 
     storeMemory() {
+        this.memoryStorage = this.currentOutput;
+        this.currentOutput = '';
+    }
 
+    recallMemory() {
+        this.currentOutput = this.memoryStorage;
     }
 
     compute() {
@@ -159,6 +165,8 @@ const equalButton = document.querySelector('[data-equals]');
 const deleteButton = document.querySelector('[data-delete]');
 const allClearButton = document.querySelector('[data-all-clear]');
 const memoryClearButton = document.querySelector('[data-memory-clear]');
+const memoryStoreButton = document.querySelector('[data-memory-storage]');
+const memoryRecallButton = document.querySelector('[data-memory-recall]');
 const memoryOperationButtons = document.querySelectorAll('[data-memory-operation]');
 const previousOutputTextElement = document.querySelector('[data-previous-output]');
 const currentOutputTextElement = document.querySelector('[data-current-output]');
@@ -243,3 +251,13 @@ function change() {
     if (element.value === "DEG") element.value = "RAD";
     else element.value = "DEG";
 }
+
+memoryStoreButton.addEventListener('click', button => {
+    calculator.storeMemory();
+    calculator.updateDisplay();
+})
+
+memoryRecallButton.addEventListener('click', button => {
+    calculator.recallMemory();
+    calculator.updateDisplay();
+})
