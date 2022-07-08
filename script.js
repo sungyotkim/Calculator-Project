@@ -242,6 +242,7 @@ class Calculator {
         }
     }
 
+    //remove for now as it does not work with strings in the current output
     // getDisplayNumber(number) {
     //     const stringNumber = number.toString();
     //     const integerDigits = parseFloat(stringNumber.split('.')[0]);
@@ -260,7 +261,7 @@ class Calculator {
     //     } else {
     //         return integerDisplay;
     //     }
-    //     // .toLocaleString('en'); this adds the commas to the integers :)
+    //     // .toLocaleString('en'); this adds the commas to the integers
     // }
 
     updateDisplay() {
@@ -370,7 +371,7 @@ parenthesisButton.addEventListener('click', button => {
 })
 
 const hiddenRow = document.querySelector('.hidden-row');
-const expandButton = document.querySelector('.expand-button');
+const expandButton = document.getElementById('expand-button');
 const mainRow = document.querySelector('.main-row');
 
 expandButton.addEventListener('click', button => {
@@ -397,6 +398,12 @@ function change() {
     let element = document.getElementById("DEGRAD");
     if (element.value === "DEG") element.value = "RAD";
     else element.value = "DEG";
+}
+
+function flip() {
+    let element = document.getElementById("expand-button");
+    if (element.value === "v") element.value = "ʌ";
+    else element.value = "v";
 }
 
 memoryStoreButton.addEventListener('click', button => {

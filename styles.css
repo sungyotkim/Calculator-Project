@@ -92,13 +92,18 @@ body {
     background-color: rgba(255, 255, 255, .9);
 }
 
-.expand-button {
+.first-row > input {
+    cursor: pointer;
     align-self: center;
     max-height: 30px;
     max-width: 30px;
     background-color: gray !important;
     box-shadow: none !important;
     border-radius: 10px !important;
+}
+
+.first-row > input:hover {
+    background-color: lightgray !important;
 }
 
 .span-two {
