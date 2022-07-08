@@ -4,6 +4,7 @@ class Calculator {
         this.currentOutputTextElement = currentOutputTextElement;
         this.clear();
         this.memoryStorage = 0;
+        this.openCounter = 0;
     }
 
     clear() {
@@ -229,15 +230,17 @@ class Calculator {
         }
     }
 
-    // parenthesis() {
-    //     const current = parseFloat(this.currentOutput);
-    //     let counter = 0;
+    parenthesis() {
+        let prev = this.currentOutput[this.currentOutput.length - 1];
 
-    //     if (counter === 0) {
-    //         this.appendNumber("(");
-    //         counter ++;
-    //     }
-    // }
+        if ((this.openCounter > 0 && Number.isInteger(parseFloat(prev))) || (this.openCounter > 0 && prev === ")")) {
+            this.currentOutput += ")";
+            this.openCounter--;
+        } else if (this.openCounter === 0 || !Number.isInteger(parseFloat(prev))) {
+            this.currentOutput += "(";
+            this.openCounter++;
+        }
+    }
 
     // getDisplayNumber(number) {
     //     const stringNumber = number.toString();
@@ -361,10 +364,10 @@ deleteButton.addEventListener('click', button => {
     calculator.updateDisplay();
 })
 
-// parenthesisButton.addEventListener('click', button => {
-//     calculator.parenthesis();
-//     calculator.updateDisplay();
-// })
+parenthesisButton.addEventListener('click', button => {
+    calculator.parenthesis();
+    calculator.updateDisplay();
+})
 
 const hiddenRow = document.querySelector('.hidden-row');
 const expandButton = document.querySelector('.expand-button');
