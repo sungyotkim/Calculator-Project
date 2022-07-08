@@ -36,11 +36,30 @@ class Calculator {
     }
 
     memoryClear() {
-
+        this.memoryStorage = 0;
+        this.currentOutput = '';
     }
 
-    chooseMemoryOperation(operation) {
+    computeMemoryOperation(operation) {
+        let computation;
+        const current = parseFloat(this.currentOutput);
+        const memory = parseFloat(this.memoryStorage);
+        if (isNaN(current)) return;
 
+        switch (operation) {
+            case 'M-':
+                computation = memory - current;
+                break;
+            case 'M+':
+                computation = memory + current;
+                break;
+            default:
+                return;
+        }
+
+        this.memoryStorage = computation;
+        this.currentOutput = computation;
+        this.operation = undefined;
     }
 
     storeMemory() {
@@ -260,4 +279,16 @@ memoryStoreButton.addEventListener('click', button => {
 memoryRecallButton.addEventListener('click', button => {
     calculator.recallMemory();
     calculator.updateDisplay();
+})
+
+memoryClearButton.addEventListener('click', button => {
+    calculator.memoryClear();
+    calculator.updateDisplay();
+})
+
+memoryOperationButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        calculator.computeMemoryOperation(button.innerText);
+        calculator.updateDisplay();
+    })
 })
