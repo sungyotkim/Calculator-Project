@@ -320,7 +320,19 @@ singleOperationButtons.forEach(button => {
     })
 })
 
+// let beforeParentheses = '';
+// let afterParentheses = '';
+// let insideParentheses = '';
+
+// function parenthesesOrder(value) {
+//     if ()
+// }
+
 equalButton.addEventListener('click', button => {
+    // if (currentOutputTextElement.innerText.includes("(")) {
+    //     parenthesesOrder (currentOutputTextElement.innerText);
+    // }
+
     if (currentOutputTextElement.innerText.includes('sin') || currentOutputTextElement.innerText.includes('cos') || currentOutputTextElement.innerText.includes('tan')) {
         let sinIndex = currentOutputTextElement.innerText.indexOf("sin(");
         let cosIndex = currentOutputTextElement.innerText.indexOf("cos(");
@@ -377,10 +389,12 @@ const mainRow = document.querySelector('.main-row');
 expandButton.addEventListener('click', button => {
     if (hiddenRow.classList.value.includes('hidden-row--hidden')) {
         hiddenRow.classList.remove('hidden-row--hidden');
+        mainRow.classList.remove('main-row--show');
         mainRow.classList.add('main-row--shrunk');
     } else {
         hiddenRow.classList.add('hidden-row--hidden');
         mainRow.classList.remove('main-row--shrunk');
+        mainRow.classList.add('main-row--show')
     }
 })
 
@@ -430,9 +444,7 @@ memoryOperationButtons.forEach(button => {
 
 
 //need to include mobile compatiblity
-//need to implement parentheses
-//need to do log
-//need to change expand from v to upsidedown v on click
+//need to make functions work with parentheses
 
 function toRadians(angle) {
     return angle * (Math.PI / 180);
