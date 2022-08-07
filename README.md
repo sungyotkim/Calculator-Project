@@ -182,3 +182,9 @@ expandButton.addEventListener('click', button => {
     }
 })
 ```
+
+Sample image of basic calculator functionality
+[sample](/sample1.PNG)
+
+Sample image of expanded calculator
+[sample2](/sample2.PNG)
