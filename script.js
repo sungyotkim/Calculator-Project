@@ -230,19 +230,19 @@ class Calculator {
         }
     }
 
-    parenthesis() {
-        let prev = this.currentOutput[this.currentOutput.length - 1];
+    // parenthesis() {
+    //     let prev = this.currentOutput[this.currentOutput.length - 1];
 
-        if ((this.openCounter > 0 && Number.isInteger(parseFloat(prev))) || (this.openCounter > 0 && prev === ")")) {
-            this.currentOutput += ")";
-            this.openCounter--;
-        } else if (this.openCounter === 0 || !Number.isInteger(parseFloat(prev))) {
-            this.currentOutput += "(";
-            this.openCounter++;
-        }
-    }
+    //     if ((this.openCounter > 0 && Number.isInteger(parseFloat(prev))) || (this.openCounter > 0 && prev === ")")) {
+    //         this.currentOutput += ")";
+    //         this.openCounter--;
+    //     } else if (this.openCounter === 0 || !Number.isInteger(parseFloat(prev))) {
+    //         this.currentOutput += "(";
+    //         this.openCounter++;
+    //     }
+    // }
 
-    //remove for now as it does not work with strings in the current output
+    //note: it does not work with strings in the current output
     // getDisplayNumber(number) {
     //     const stringNumber = number.toString();
     //     const integerDigits = parseFloat(stringNumber.split('.')[0]);
@@ -377,10 +377,10 @@ deleteButton.addEventListener('click', button => {
     calculator.updateDisplay();
 })
 
-parenthesisButton.addEventListener('click', button => {
-    calculator.parenthesis();
-    calculator.updateDisplay();
-})
+// parenthesisButton.addEventListener('click', button => {
+//     calculator.parenthesis();
+//     calculator.updateDisplay();
+// })
 
 const hiddenRow = document.querySelector('.hidden-row');
 const expandButton = document.getElementById('expand-button');
@@ -445,6 +445,8 @@ memoryOperationButtons.forEach(button => {
 
 //need to include mobile compatiblity
 //need to make functions work with parentheses
+
+//((8)9)) --> adds extra at the end
 
 function toRadians(angle) {
     return angle * (Math.PI / 180);
