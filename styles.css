@@ -40,7 +40,6 @@ body {
     grid-row: 3 / 8;
     grid-template-columns: repeat(4, 6.25rem);
     position: relative;
-    /* margin-top: 6.25rem; */
     padding-bottom: 0.3125rem;
 }
 
